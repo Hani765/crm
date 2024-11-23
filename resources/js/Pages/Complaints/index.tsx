@@ -44,7 +44,13 @@ export default function Index({
                 </div>
                 <DateRangePicker
                     endPoint={url}
-                    onUrlChange={(url: string) => setUrl(url)}
+                    onUrlChange={(updatedUrl) => {
+                        if (Array.isArray(updatedUrl)) {
+                            setUrl(updatedUrl[0]);
+                        } else {
+                            setUrl(updatedUrl); // Otherwise, just update the single URL
+                        }
+                    }}
                 />
             </div>
             {error ? (

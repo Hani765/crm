@@ -27,8 +27,8 @@ interface DateRangePickerProps {
     triggerVariant?: Exclude<ButtonProps["variant"], "destructive" | "link">;
     triggerSize?: Exclude<ButtonProps["size"], "icon">;
     triggerClassName?: string;
-    endPoint: string;
-    onUrlChange: (url: string) => void;
+    endPoint: string | string[]; // Accept single URL or an array of URLs
+    onUrlChange: (url: string | string[]) => void; // Callback to handle URL change
 }
 
 export function DateRangePicker({
@@ -40,7 +40,7 @@ export function DateRangePicker({
     onUrlChange,
 }: DateRangePickerProps) {
     const [selectedDateRange, setSelectedDateRange] = React.useState<DateRange>(
-        getDefaultDateRange(),
+        getDefaultDateRange()
     );
 
     // Helper function to format date to YYYY-MM-DD
@@ -49,7 +49,9 @@ export function DateRangePicker({
 
     // Function to handle query change and update the URL with formatted date range
     const handleQueryChange = (newDateRange: DateRange | undefined) => {
-        const urlParams = new URLSearchParams(endPoint.split("?")[1]);
+        const urlParams = new URLSearchParams(
+            typeof endPoint === "string" ? endPoint.split("?")[1] : ""
+        );
 
         if (newDateRange?.from) {
             urlParams.set("from", formatDate(newDateRange.from)); // Format to YYYY-MM-DD
@@ -63,16 +65,27 @@ export function DateRangePicker({
             urlParams.delete("to");
         }
 
-        // Rebuild and update the URL
-        const updatedUrl = `${endPoint.split("?")[0]}?${urlParams.toString()}`;
-        onUrlChange(updatedUrl);
+        // Rebuild and update the URL(s)
+        const url = `${
+            typeof endPoint === "string" ? endPoint.split("?")[0] : ""
+        }?${urlParams.toString()}`;
+
+        // If `endPoint` is a string, update that URL only, else update all URLs
+        if (typeof endPoint === "string") {
+            onUrlChange(url); // Update the single URL
+        } else {
+            const urls = endPoint.map((url) => {
+                return `${url.split("?")[0]}?${urlParams.toString()}`;
+            });
+            onUrlChange(urls); // Update all URLs
+        }
     };
 
     // Function to reset the date range to default (previous 7 days)
     const resetToDefaultDateRange = () => {
         const defaultRange = getDefaultDateRange();
         setSelectedDateRange(defaultRange);
-        handleQueryChange(defaultRange); // Update URL with default date range
+        handleQueryChange(defaultRange); // Update URL(s) with default date range
     };
 
     return (
@@ -85,7 +98,7 @@ export function DateRangePicker({
                         className={cn(
                             "w-full justify-start truncate text-left font-normal",
                             !selectedDateRange && "text-muted-foreground",
-                            triggerClassName,
+                            triggerClassName
                         )}
                     >
                         <CalendarIcon className="mr-2 size-4" />
@@ -94,7 +107,7 @@ export function DateRangePicker({
                                 <>
                                     {format(
                                         selectedDateRange.from,
-                                        "LLL dd, y",
+                                        "LLL dd, y"
                                     )}{" "}
                                     -{" "}
                                     {format(selectedDateRange.to, "LLL dd, y")}

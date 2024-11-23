@@ -27,10 +27,7 @@ export function BrandsData({ url, setUrl }: { url: string; setUrl: any }) {
                         Manage and track your Brands in one convenient location.
                     </p>
                 </div>
-                <DateRangePicker
-                    endPoint={url}
-                    onUrlChange={(url: string) => setUrl(url)}
-                />
+                <DateRangePicker endPoint={url} onUrlChange={setUrl(url)} />
             </div>
             {error ? (
                 <div className="min-h-72 mt-6 bg-white flex border flex-col border-gray-200 dark:border-gray-700 dark:bg-gray-900 w-full shadow-sm justify-center items-center px-2 rounded py-4 text-gray-100 dark:text-gray-600">

@@ -14,7 +14,7 @@ class FetchCortroller extends Controller
 
     public function fetchBrands()
     {
-        $brands = Brands::select('unique_id', 'name')->get();
+        $brands = Brands::select('unique_id', 'name', 'logo')->get();
         return response()->json($brands);
     }
     public function fetchBranches(Request $request)

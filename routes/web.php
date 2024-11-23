@@ -3,6 +3,7 @@
 use App\Http\Controllers\Authenticated\BranchesController;
 use App\Http\Controllers\Authenticated\BrandsController;
 use App\Http\Controllers\Authenticated\ComplaintController;
+use App\Http\Controllers\Authenticated\DashboardController;
 use App\Http\Controllers\Authenticated\FetchCortroller;
 use App\Http\Controllers\Authenticated\UserController;
 use App\Http\Controllers\ProfileController;
@@ -37,6 +38,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/fetch-users', [UserController::class, 'fetchUsers']);
     Route::get('/fetch-brands-ids', [FetchCortroller::class, 'fetchBrands']);
     Route::get('/fetch-branches-ids', [FetchCortroller::class, 'fetchBranches']);
+    Route::get('/dashboard-chart-data', [DashboardController::class, 'FetchComplaintChartData']);
+    Route::get('/dashboard-complaints-percentage', [DashboardController::class, 'getComplaintStatusPercentage']);
+    Route::get('/dashboard-complaints-by-brand', [DashboardController::class, 'getComplaintStatusByBrand']);
 });
 
 require __DIR__ . '/auth.php';

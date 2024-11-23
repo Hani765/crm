@@ -1,5 +1,6 @@
 import ApplicationLogo from "@/components/ApplicationLogo";
 import { AppSidebar } from "@/components/app-sidebar";
+import Footer from "@/components/footer";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -49,6 +50,7 @@ export default function Authenticated({ children }: PropsWithChildren) {
                     </div>
                 </header>
                 <main className="p-2">{children}</main>
+                <Footer />
             </SidebarInset>
         </SidebarProvider>
     );

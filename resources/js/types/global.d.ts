@@ -19,6 +19,7 @@ export type BrandType = {
     id: number;
     name: string;
     unique_id: string;
+    logo: string;
     status: string;
 };
 export type BranchType = {

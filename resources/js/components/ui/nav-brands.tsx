@@ -1,6 +1,8 @@
 import { TbBrandBinance } from "react-icons/tb";
 import { NavMain } from "../nav-main";
 import { useFetchContext } from "@/hooks/useFetchContext";
+import { NavFavorites } from "../nav-favorites";
+import { Skeleton } from "./skeleton";
 
 export default function NavBrands({
     url,
@@ -10,18 +12,27 @@ export default function NavBrands({
     currentUrl: string;
 }) {
     const { data, error, isLoading } = useFetchContext(url);
-    const fetchData = [
-        {
-            title: "Brands",
-            url: "#",
-            icon: TbBrandBinance,
-            items:
-                data?.map((item: any) => ({
-                    url: `/brands/${item.unique_id}`,
-                    title: item.name,
-                })) || [],
-        },
-    ];
 
-    return <NavMain items={fetchData} currentUrl={currentUrl} />;
+    return (
+        <>
+            {!isLoading ? (
+                <NavFavorites data={data ?? []} currentUrl={currentUrl} />
+            ) : (
+                <div className="space-y-4 px-2">
+                    <Skeleton className="w-full h-4 rounded-lg" />
+                    <Skeleton className="w-full h-4 rounded-lg" />
+                    <Skeleton className="w-full h-4 rounded-lg" />
+                    <Skeleton className="w-full h-4 rounded-lg" />
+                    <Skeleton className="w-full h-4 rounded-lg" />
+                    <Skeleton className="w-full h-4 rounded-lg" />
+                    <Skeleton className="w-full h-4 rounded-lg" />
+                    <Skeleton className="w-full h-4 rounded-lg" />
+                    <Skeleton className="w-full h-4 rounded-lg" />
+                    <Skeleton className="w-full h-4 rounded-lg" />
+                    <Skeleton className="w-full h-4 rounded-lg" />
+                    <Skeleton className="w-full h-4 rounded-lg" />
+                </div>
+            )}
+        </>
+    );
 }

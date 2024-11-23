@@ -10,8 +10,11 @@ import React, { useState } from "react";
 import { Columns } from "./columns";
 import Create from "./create/CreateDialogue";
 
-export default function index() {
-    const [url, setUrl] = useState(`/fetch-branches`);
+export default function Index() {
+    // Set up state to handle the URL, supporting both single and multiple URLs if needed
+    const [url, setUrl] = useState<string>("/fetch-branches");
+
+    // Fetch data from the endpoint
     const { data, isLoading, error } = useFetch<FetchedDataTypes>(url);
 
     return (
@@ -32,7 +35,13 @@ export default function index() {
                 </div>
                 <DateRangePicker
                     endPoint={url}
-                    onUrlChange={(url: string) => setUrl(url)}
+                    onUrlChange={(updatedUrl) => {
+                        if (Array.isArray(updatedUrl)) {
+                            setUrl(updatedUrl[0]);
+                        } else {
+                            setUrl(updatedUrl); // Otherwise, just update the single URL
+                        }
+                    }}
                 />
             </div>
             <>
@@ -57,7 +66,7 @@ export default function index() {
                         pagination={data.pagination}
                         endPoint={url}
                         columns={Columns()}
-                        onUrlChange={(url: string) => setUrl(url)}
+                        onUrlChange={(newUrl: string) => setUrl(newUrl)} // Pass new URL on change
                         isPagination
                         Create={Create}
                     />
