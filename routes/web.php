@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard-chart-data', [DashboardController::class, 'FetchComplaintChartData']);
     Route::get('/dashboard-complaints-percentage', [DashboardController::class, 'getComplaintStatusPercentage']);
     Route::get('/dashboard-complaints-by-brand', [DashboardController::class, 'getComplaintStatusByBrand']);
+    Route::get('/copy-complaint/{unique_id}', [ComplaintController::class, 'copyComplaint']);
 });
 
 require __DIR__ . '/auth.php';

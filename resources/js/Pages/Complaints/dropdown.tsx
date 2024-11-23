@@ -52,6 +52,14 @@ export default function Dropdown({ rowCurrent }: { rowCurrent: any }) {
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem>
                             <a
+                                href={`/copy-complaint/${rowCurrent.id}`}
+                                target="_blank"
+                            >
+                                Copy Complaint
+                            </a>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <a
                                 href={`/complaint/${rowCurrent.id}`}
                                 target="_blank"
                             >
