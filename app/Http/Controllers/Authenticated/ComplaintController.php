@@ -205,6 +205,15 @@ class ComplaintController extends Controller
             'brands_data' => $brands,
         ]);
     }
+    public function copyComplaint(string $id)
+    {
+        $complaint = Complaint::find($id);
+        $brands = Brands::select('unique_id', 'name')->get();
+        return Inertia::render('Complaints/copy/index', [
+            'data' => $complaint,
+            'brands_data' => $brands,
+        ]);
+    }
 
     /**
      * Update the specified resource in storage.
