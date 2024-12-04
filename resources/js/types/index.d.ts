@@ -10,6 +10,10 @@ export interface User {
     whats_app: string;
     age: string;
     gender: string;
+    manager_id: string;
+    branch_id: string;
+    monthly_salary: string;
+    reference_name: string;
     dob: string;
     country: string;
     province: string;
@@ -37,4 +41,27 @@ export type PageProps<
 interface FetchedDataTypes {
     data: BrandType[];
     pagination: any;
+}
+
+interface MetaType {
+    id: number;
+    name: string;
+    url: String;
+    title: string;
+    description: string;
+    keywords: string;
+}
+interface Routes {
+    name: string;
+    url: string;
+}
+export interface ServiceType {
+    id: number;
+    name: string;
+    url: string;
+    title: string;
+    description: string;
+    image: string;
+    created_at: any;
+    updated_at: any;
 }

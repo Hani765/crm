@@ -30,12 +30,12 @@ export default function Dashboard() {
                 </div>
                 <TabsList>
                     <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-                    <TabsTrigger value="analytics">Analytics</TabsTrigger>
+                    <TabsTrigger value="analytics">Accounts</TabsTrigger>
                     <TabsTrigger value="reports" disabled>
-                        Reports
+                        Inverntory
                     </TabsTrigger>
                     <TabsTrigger value="notifications" disabled>
-                        Notifications
+                        Payout
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value="dashboard" className="space-y-4">

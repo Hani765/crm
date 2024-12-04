@@ -4,19 +4,72 @@ import { LabelInputContainer } from "@/components/ui/LabelInputContainer";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { FaAngleDown, FaAngleRight, FaLock } from "react-icons/fa";
-import { Head } from "@inertiajs/react";
-export default function index({ data }: { data: ComplaintType }) {
+import { FaAngleDown, FaAngleRight, FaHistory, FaLock } from "react-icons/fa";
+import { Head, Link } from "@inertiajs/react";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet";
+export default function index({
+    data: complaintData,
+    history,
+}: {
+    data: ComplaintType;
+    history: any;
+}) {
     const [coustmerShow, setCoustmerShow] = useState(true);
     const [productShow, setProductShow] = useState(true);
+    const [data, setData] = useState<ComplaintType>(complaintData);
     return (
         <div className="space-y-4 px-4 py-6">
             <Head title={data.complain_num}>
                 <meta name="description" content={data.description} />
             </Head>
-            <h2 className="text-lg font-semibold">
-                Complaint ID-{data.complain_num}
-            </h2>
+            <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold">
+                    Complaint ID-{data.complain_num}
+                </h2>
+                <Sheet>
+                    <SheetTrigger>
+                        <FaHistory />
+                    </SheetTrigger>
+                    <SheetContent>
+                        <SheetHeader>
+                            <SheetTitle className="flex gap-2">
+                                <FaHistory /> History
+                            </SheetTitle>
+                            <SheetDescription>
+                                Older versions of that complaint.
+                            </SheetDescription>
+                            <div className="history-list">
+                                {history.map((item: any, index: any) => (
+                                    <div
+                                        key={item.id}
+                                        className="history-item border-b pb-2 mb-2 hover:bg-gray-50"
+                                        onClick={(e) =>
+                                            setData(item.complaint_data)
+                                        }
+                                    >
+                                        <h4 className="font-semibold">
+                                            Version {history.length - index} -
+                                            Updated on{" "}
+                                            {new Date(
+                                                item.created_at
+                                            ).toLocaleString()}
+                                        </h4>
+                                        {JSON.stringify(item.complaint_data)}
+                                    </div>
+                                ))}
+                            </div>
+                        </SheetHeader>
+                    </SheetContent>
+                </Sheet>
+            </div>
             <div className="flex justify-between items-center bg-gray-300 rounded px-1 shadow ">
                 <h2 className="text-lg font-semibold">Coustmer Information</h2>
                 <Button
@@ -204,17 +257,6 @@ export default function index({ data }: { data: ComplaintType }) {
                     value={data.extra}
                     placeholder="Additional information (if any)"
                 />
-            </div>
-            <div className="flex flex-wrap gap-4">
-                {data.images.map((image) => (
-                    <a href={image} target="_blank">
-                        <img
-                            src={image}
-                            alt={image}
-                            className="h-[200px] w-[200px]"
-                        />
-                    </a>
-                ))}
             </div>
         </div>
     );

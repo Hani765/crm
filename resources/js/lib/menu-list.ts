@@ -1,7 +1,7 @@
 import { MdHome, MdMessage } from "react-icons/md";
 import { IoNotifications } from "react-icons/io5";
 import { TbBrand4Chan, TbGitBranch, TbUsersGroup } from "react-icons/tb";
-import { GrCompliance } from "react-icons/gr";
+import { GrCompliance, GrResources } from "react-icons/gr";
 import { GearIcon } from "@radix-ui/react-icons";
 import { PiGear } from "react-icons/pi";
 
@@ -49,6 +49,12 @@ export function getMenuList(role: string | undefined) {
                 href: "/complaint",
                 label: "Complaints",
                 icon: GrCompliance,
+                submenus: [],
+            },
+            {
+                href: "/resources",
+                label: "Resources",
+                icon: GrResources,
                 submenus: [],
             }
         );

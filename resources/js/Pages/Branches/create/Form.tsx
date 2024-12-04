@@ -1,14 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { LabelInputContainer } from "@/components/ui/LabelInputContainer";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+
 import SubmitBtn from "@/components/ui/SubmitBtn";
 import { Textarea } from "@/components/ui/textarea";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
@@ -17,10 +9,9 @@ import { Head, useForm } from "@inertiajs/react";
 import React, { ChangeEvent, FormEventHandler } from "react";
 import { toast } from "sonner";
 
-export default function Form({ managers }: { managers: User[] }) {
+export default function Form() {
     const { post, data, setData, processing, errors } = useForm({
         name: "",
-        branch_manager: "",
         branch_contact_no: "",
         branch_address: "",
         image: null as File | null,
@@ -63,38 +54,6 @@ export default function Form({ managers }: { managers: User[] }) {
                     }
                     errorMessage={errors.branch_contact_no}
                 />
-                <div className="">
-                    <Label>Select Branch Manager</Label>
-                    <Select
-                        value={data.branch_manager}
-                        onValueChange={(unique_id) =>
-                            setData("branch_manager", unique_id)
-                        }
-                        required
-                    >
-                        <SelectTrigger>
-                            <SelectValue placeholder="select branch manager" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Mangers</SelectLabel>
-                                {managers.map((manager) => (
-                                    <SelectItem
-                                        key={manager.id}
-                                        value={manager.unique_id}
-                                    >
-                                        {manager.username}
-                                    </SelectItem>
-                                ))}
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                    {errors.branch_manager && (
-                        <p className="text-xs text-red-500">
-                            {errors.branch_manager}
-                        </p>
-                    )}
-                </div>
                 <div>
                     <Label>Address:</Label>
                     <Textarea

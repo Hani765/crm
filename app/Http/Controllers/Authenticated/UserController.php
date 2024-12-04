@@ -63,16 +63,11 @@ class UserController extends Controller
             'pagination' => $paginationData,
         ]);
     }
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        return Inertia::render('Users/create/form', [
-            'branches' => Branches::all(),
-        ]);
+        return Inertia::render('Users/create/index');
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -83,9 +78,12 @@ class UserController extends Controller
             'last_name' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
+            'phone' => 'required|string|max:11',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'branch_id' => 'nullable|exists:branches,unique_id', // Ensure this matches your DB schema
             'role' => 'required|string', // Ensure this matches your DB schema
+            'monthly_salary' => 'required|string', // Ensure this matches your DB schema
+            'reference_name' => 'required|string', // Ensure this matches your DB schema
         ]);
         $user = User::create([
             'unique_id' => Str::uuid(),
@@ -93,8 +91,12 @@ class UserController extends Controller
             'last_name' => $request->last_name,
             'username' => $request->username,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
+            'branch_id' => 'nullable|exists:branches,unique_id', // Ensure this matches your DB schema
             'role' => $request->role,
+            'monthly_salary' => $request->monthly_salary,
+            'reference_name' => $request->reference_name,
         ]);
     }
 

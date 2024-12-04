@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactNode, useState } from "react";
+import React, { useState } from "react";
 import {
     Credenza,
     CredenzaClose,
@@ -22,6 +22,7 @@ import { useForm } from "@inertiajs/react";
 import { FaTrashAlt } from "react-icons/fa";
 import { toast } from "sonner";
 import { IoEyeOffOutline } from "react-icons/io5";
+import Update from "./update/UpdateDIalogue";
 
 export default function Dropdown({ rowCurrent }: { rowCurrent: any }) {
     const [deleteOpen, setDeleteOpen] = useState(false);
@@ -61,6 +62,7 @@ export default function Dropdown({ rowCurrent }: { rowCurrent: any }) {
                                 <IoEyeOffOutline />
                             </a>
                         </DropdownMenuItem>
+                        <Update rowCurrent={rowCurrent} />
                         <Button
                             variant="ghost"
                             size="sm"

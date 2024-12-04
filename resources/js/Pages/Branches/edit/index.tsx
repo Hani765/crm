@@ -19,16 +19,9 @@ import { Head, useForm } from "@inertiajs/react";
 import React, { ChangeEvent, FormEventHandler } from "react";
 import { toast } from "sonner";
 
-export default function Form({
-    managers,
-    branch,
-}: {
-    managers: User[];
-    branch: BranchType;
-}) {
+export default function Form({ branch }: { branch: BranchType }) {
     const { put, data, setData, processing, errors } = useForm({
         name: branch.name,
-        branch_manager: branch.branch_manager,
         branch_contact_no: branch.branch_contact_no,
         branch_address: branch.branch_address,
         status: branch.status,
@@ -74,38 +67,6 @@ export default function Form({
                     }
                     errorMessage={errors.branch_contact_no}
                 />
-                <div>
-                    <Label>Select Branch Manager</Label>
-                    <Select
-                        value={data.branch_manager}
-                        onValueChange={(unique_id) =>
-                            setData("branch_manager", unique_id)
-                        }
-                        required
-                    >
-                        <SelectTrigger>
-                            <SelectValue placeholder="select branch manager" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Managers</SelectLabel>
-                                {managers.map((manager) => (
-                                    <SelectItem
-                                        key={manager.id}
-                                        value={manager.unique_id}
-                                    >
-                                        {manager.username}
-                                    </SelectItem>
-                                ))}
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                    {errors.branch_manager && (
-                        <p className="text-xs text-red-500">
-                            {errors.branch_manager}
-                        </p>
-                    )}
-                </div>
                 <div>
                     <Label>Address:</Label>
                     <Textarea

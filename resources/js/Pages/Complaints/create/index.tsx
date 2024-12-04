@@ -20,9 +20,11 @@ import { statusOptions } from "@/lib/utils";
 export default function ComplaintForm({
     data: brandData,
     branchData,
+    technicians,
 }: {
     data: any;
     branchData: any;
+    technicians: any;
 }) {
     // Update the form initialization with `File[]` type for `images`
     const { post, data, setData, errors, processing } = useForm({
@@ -320,15 +322,16 @@ export default function ComplaintForm({
                         <p className="text-red-600">{errors.description}</p>
                     )}
                 </div>
-                <LabelInputContainer
-                    type="text"
-                    label="Technician"
-                    value={data.technician}
-                    onChange={(e) => setData("technician", e.target.value)}
-                    errorMessage={errors.technician}
-                    placeholder="Enter the technician's name"
-                />
 
+                <SearchSelect
+                    label="Select Technician"
+                    items={technicians}
+                    onSelect={(unique_id: string) =>
+                        setData({ ...data, technician: unique_id })
+                    }
+                    selected_value={data.technician}
+                    errorMessage={errors.technician}
+                />
                 <div>
                     <Textarea
                         value={data.extra}

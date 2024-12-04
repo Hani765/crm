@@ -82,19 +82,7 @@ export const Columns = (): ColumnDef<User>[] => [
     {
         accessorKey: "phone",
         header: ({ column }) => {
-            return <DataTableColumnHeader column={column} title="Phonr" />;
-        },
-    },
-    {
-        accessorKey: "age",
-        header: ({ column }) => {
-            return <DataTableColumnHeader column={column} title="Age" />;
-        },
-    },
-    {
-        accessorKey: "earnings",
-        header: ({ column }) => {
-            return <DataTableColumnHeader column={column} title="Earnings" />;
+            return <DataTableColumnHeader column={column} title="Phone" />;
         },
     },
     {
@@ -118,10 +106,29 @@ export const Columns = (): ColumnDef<User>[] => [
         },
     },
     {
-        accessorKey: "manager_username",
+        accessorKey: "monthly_salary",
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Manager Name" />
+                <DataTableColumnHeader
+                    column={column}
+                    title="Montrhly salary"
+                />
+            );
+        },
+    },
+    {
+        accessorKey: "branch_name",
+        header: ({ column }) => {
+            return (
+                <DataTableColumnHeader column={column} title="Branch Name" />
+            );
+        },
+    },
+    {
+        accessorKey: "reference_name",
+        header: ({ column }) => {
+            return (
+                <DataTableColumnHeader column={column} title="Reference Name" />
             );
         },
     },

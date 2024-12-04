@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('unique_id');
-            $table->string('branch_manager');
             $table->string('branch_contact_no');
             $table->string('branch_address');
             $table->string('image')->nullable();

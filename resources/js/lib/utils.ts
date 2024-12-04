@@ -1,9 +1,10 @@
-import { type ClassValue, clsx } from "clsx";
+import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
+
 export function formatDate(
     date: Date | string | number,
     opts: Intl.DateTimeFormatOptions = {}
@@ -42,9 +43,17 @@ export const getRoleOptions = (role: string) => {
                 "assistant",
                 "data specialist",
                 "operator",
+                "technician",
             ];
         case "manager":
-            return ["cso", "cro", "assistant", "data specialist", "operator"];
+            return [
+                "cso",
+                "cro",
+                "assistant",
+                "data specialist",
+                "operator",
+                "technician",
+            ];
         default:
             return [];
     }

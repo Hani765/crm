@@ -1,7 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import { Link } from "@inertiajs/react";
 import { PlusIcon } from "lucide-react";
-import React from "react";
 
 export default function Create() {
     return (
@@ -10,10 +9,10 @@ export default function Create() {
                 variant: "outline",
                 size: "sm",
             })}`}
-            href={route("users.create")}
+            href={route("resources.create")}
         >
             <PlusIcon className="mr-2 size-4" aria-hidden="true" />
-            Add new user
+            Add a Resource
         </Link>
     );
 }

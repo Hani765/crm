@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Branches extends Model
 {
-    protected $fillable = ['name', 'unique_id', 'branch_manager', 'branch_contact_no', 'branch_address', 'image', 'status'];
+    protected $fillable = ['name', 'unique_id', 'branch_contact_no', 'branch_address', 'image', 'status'];
 
     // Correcting the method name to 'branch' to reflect the relationship properly
     public function branch()

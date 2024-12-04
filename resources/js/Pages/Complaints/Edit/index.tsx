@@ -19,17 +19,22 @@ import { statusOptions } from "@/lib/utils";
 import { FaAngleDown, FaAngleRight } from "react-icons/fa";
 
 export default function ComplaintForm({
-    brands_data: brandData,
+    brands_data,
     data: complaintData,
+    branchData,
+    technicians,
 }: {
     brands_data: any;
     data: any;
+    branchData: any;
+    technicians: any;
 }) {
     const [coustmerShow, setCoustmerShow] = useState(false);
     const [productShow, setProductShow] = useState(false);
     // Update the form initialization with `File[]` type for `images`
-    const { post, data, setData, errors, processing } = useForm({
+    const { put, data, setData, errors, processing } = useForm({
         brand_id: complaintData.brand_id,
+        branch_id: complaintData.branch_id,
         contact_name: complaintData.contact_name,
         company_complaint_no: complaintData.company_complaint_no,
         contact_email: complaintData.contact_email,
@@ -67,7 +72,7 @@ export default function ComplaintForm({
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post("/complaint", {
+        put("/complaint/" + complaintData.id, {
             onSuccess: () => {
                 toast.success("Complaint has been created!");
             },
@@ -92,6 +97,7 @@ export default function ComplaintForm({
                         variant="ghost"
                         size="icon"
                         onClick={() => setCoustmerShow(!coustmerShow)}
+                        type="button"
                     >
                         {coustmerShow ? <FaAngleDown /> : <FaAngleRight />}
                     </Button>
@@ -161,7 +167,7 @@ export default function ComplaintForm({
                         />
                         <SearchSelect
                             label="Select Brand"
-                            items={brandData}
+                            items={brands_data}
                             onSelect={(unique_id: string) =>
                                 setData({ ...data, brand_id: unique_id })
                             }
@@ -169,6 +175,16 @@ export default function ComplaintForm({
                             errorMessage={errors.brand_id}
                             required
                         />{" "}
+                        <SearchSelect
+                            label="Select Branch"
+                            items={branchData}
+                            onSelect={(unique_id: string) =>
+                                setData({ ...data, branch_id: unique_id })
+                            }
+                            selected_value={data.branch_id}
+                            errorMessage={errors.branch_id}
+                            required
+                        />
                         <LabelInputContainer
                             type="text"
                             label="Sender"
@@ -209,7 +225,6 @@ export default function ComplaintForm({
                     </div>
                     <hr className="my-4 border-2 border-gray-500 rounded" />
                 </div>
-
                 <div className="flex justify-between items-center bg-gray-100 rounded px-1 shadow ">
                     <h2 className="text-lg font-semibold">
                         Product Information
@@ -218,6 +233,7 @@ export default function ComplaintForm({
                         variant="ghost"
                         size="icon"
                         onClick={() => setProductShow(!productShow)}
+                        type="button"
                     >
                         {productShow ? <FaAngleDown /> : <FaAngleRight />}
                     </Button>
@@ -359,16 +375,16 @@ export default function ComplaintForm({
                     </div>
                     <hr className="my-4 border-2 border-gray-500 rounded" />
                 </div>
-
-                <LabelInputContainer
-                    type="text"
-                    label="Technician"
-                    value={data.technician}
-                    onChange={(e) => setData("technician", e.target.value)}
+                <SearchSelect
+                    label="Select Technician"
+                    items={technicians}
+                    onSelect={(unique_id: string) =>
+                        setData({ ...data, technician: unique_id })
+                    }
+                    selected_value={data.technician}
                     errorMessage={errors.technician}
-                    placeholder="Enter the technician's name"
+                    required
                 />
-
                 <div>
                     <Textarea
                         value={data.extra}

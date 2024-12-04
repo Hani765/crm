@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Branches;
 use App\Models\Brands;
 use App\Models\Complaint;
+use App\Models\ComplaintHistory;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
@@ -87,9 +89,11 @@ class ComplaintController extends Controller
         // Fetch brands with unique_id and name only
         $brands = Brands::select('unique_id', 'name')->get();
         $branchs = Branches::select('unique_id', 'name')->get();
+        $technicians = User::select('unique_id', 'username as name')->where('role', 'technician')->get();
         return Inertia::render('Complaints/create/index', [
             'data' => $brands,
             'branchData' => $branchs,
+            'technicians' => $technicians,
         ]);
     }
 
@@ -125,7 +129,7 @@ class ComplaintController extends Controller
             'extra' => 'nullable|string',
             'complaint_type' => 'required|string',
             'provided_services' => 'required|string',
-            'status' => 'nullable|in:open,pending,closed',
+            'status' => 'required|in:open,pending',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Add nullable here if images aren't required
         ]);
 
@@ -165,8 +169,13 @@ class ComplaintController extends Controller
     {
         $complaint = Complaint::find($id);
         $complaint->brand_name = $complaint->brand ? $complaint->brand->name : null;
+        $history = ComplaintHistory::where('complaint_id', $complaint->id)
+            ->orderBy('created_at', 'desc') // Sort by latest first
+            ->get();
+        return response()->json($history);
         return Inertia::render('Complaints/View/index', [
-            'data' => $complaint
+            'data' => $complaint,
+            'history' => $history,
         ]);
     }
 
@@ -177,7 +186,21 @@ class ComplaintController extends Controller
     {
         $complaint = Complaint::find($id);
         $brands = Brands::select('unique_id', 'name')->get();
+        $branchs = Branches::select('unique_id', 'name')->get();
+        $technicians = User::select('unique_id', 'username as name')->where('role', 'technician')->get();
+
         return Inertia::render('Complaints/Edit/index', [
+            'data' => $complaint,
+            'brands_data' => $brands,
+            'branchData' => $branchs,
+            'technicians' => $technicians,
+        ]);
+    }
+    public function copyComplaint(string $id)
+    {
+        $complaint = Complaint::find($id);
+        $brands = Brands::select('unique_id', 'name')->get();
+        return Inertia::render('Complaints/copy/index', [
             'data' => $complaint,
             'brands_data' => $brands,
         ]);
@@ -188,7 +211,60 @@ class ComplaintController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $payload = $request->validate([
+            'contact_name' => 'required|string',
+            'company_complaint_no' => 'nullable|string',
+            'contact_email' => 'nullable|email',
+            'phone_no' => 'required|string',
+            'whatsapp_no' => 'nullable|string',
+            'address' => 'required|string',
+            'sender' => 'required|string',
+            'city' => 'required|string',
+            'brand_id' => 'required|exists:brands,unique_id',
+            'branch_id' => 'required|exists:branches,unique_id',
+            'product' => 'required|string',
+            'model' => 'required|string',
+            'serial_number_ind' => 'nullable|string',
+            'serial_number_oud' => 'nullable|string',
+            'mq_nmb' => 'nullable|string',
+            'p_date' => 'nullable|date',
+            'description' => 'nullable|string',
+            'amount' => 'nullable|string',
+            'technician' => 'nullable|string',
+            'extra' => 'nullable|string',
+            'complaint_type' => 'required|string',
+            'provided_services' => 'required|string',
+            'status' => 'required',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // Fetch the complaint
+        $complaint = Complaint::findOrFail($id);
+
+        // Save the old version in the history table
+        ComplaintHistory::create([
+            'complaint_id' => $complaint->id,
+            'complaint_data' => $complaint,
+        ]);
+
+        // Update the complaint with new data
+        $complaint->update($payload);
+
+        return response()->json(['message' => 'Complaint updated successfully.']);
+    }
+
+    public function showHistory(string $id)
+    {
+        // Find the complaint by its ID
+        $complaint = Complaint::findOrFail($id);
+
+        // Fetch all history records for the complaint
+        $history = ComplaintHistory::where('complaint_id', $complaint->id)
+            ->orderBy('created_at', 'desc') // Sort by latest first
+            ->get();
+        return response()->json([
+            'complaint' => $complaint,
+        ]);
     }
 
     /**

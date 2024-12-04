@@ -1,10 +1,10 @@
 // Updated FetchContext.tsx
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { playNotificationSound } from "./play-audio";
 import { toast } from "sonner";
 import { usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { echoInstance } from "@/echo";
+import { playNotificationSound } from "./play-audio";
 
 type FetchResult<T> = {
     data: Record<string, T | null>; // Store data for each URL

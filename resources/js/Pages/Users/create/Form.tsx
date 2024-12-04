@@ -29,10 +29,13 @@ export default function Form() {
         last_name: "",
         username: "",
         email: "",
+        phone: "",
         password: "",
         password_confirmation: "",
         branch_id: "",
         role: "",
+        monthly_salary: "",
+        reference_name: "",
     });
 
     // Handle form submission
@@ -55,9 +58,12 @@ export default function Form() {
     const roleOptions = getRoleOptions(role);
 
     return (
-        <form className="w-full p-2 sm:p-0" onSubmit={submit}>
-            <div className="w-full flex flex-col gap-2 items-end mb-2">
-                <div className="w-full grid grid-cols-2 gap-2">
+        <form
+            className="w-full p-2 sm:p-0 overflow-y-auto h-[300px]"
+            onSubmit={submit}
+        >
+            <div className="w-full space-y-2">
+                <div className="w-full grid grid-cols-2 gap-2 ">
                     <LabelInputContainer
                         type="text"
                         label="First Name"
@@ -100,31 +106,71 @@ export default function Form() {
                         onChange={(e) => setData("email", e.target.value)}
                         errorMessage={errors.email}
                     />
+                </div>
+                <LabelInputContainer
+                    type="number"
+                    label="Phone No:"
+                    autoComplete="phone"
+                    placeholder="03021112233"
+                    required
+                    className="bg-gray-50"
+                    value={data.phone}
+                    onChange={(e) => setData("phone", e.target.value)}
+                    errorMessage={errors.phone}
+                />
+                <LabelInputContainer
+                    type="password"
+                    label="Password"
+                    autoComplete="password"
+                    required
+                    className="bg-gray-50"
+                    value={data.password}
+                    onChange={(e) => setData("password", e.target.value)}
+                    errorMessage={errors.password}
+                    placeholder="********"
+                />
+                <LabelInputContainer
+                    label="Confirm Password"
+                    id="password_confirmation"
+                    type="password"
+                    name="password_confirmation"
+                    value={data.password_confirmation}
+                    autoComplete="new-password"
+                    onChange={(e) =>
+                        setData("password_confirmation", e.target.value)
+                    }
+                    errorMessage={errors.password_confirmation}
+                    required
+                    placeholder="********"
+                />
+                <div className="w-full grid grid-cols-2 gap-2 ">
                     <LabelInputContainer
-                        type="password"
-                        label="Password"
-                        autoComplete="password"
-                        required
-                        className="bg-gray-50"
-                        value={data.password}
-                        onChange={(e) => setData("password", e.target.value)}
-                        errorMessage={errors.password}
-                        placeholder="********"
-                    />
-                    <LabelInputContainer
-                        label="Confirm Password"
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        value={data.password_confirmation}
-                        autoComplete="new-password"
+                        label="Monthly Salary"
+                        id="monthly_salary"
+                        type="number"
+                        name="monthly_salary"
+                        value={data.monthly_salary}
                         onChange={(e) =>
-                            setData("password_confirmation", e.target.value)
+                            setData("monthly_salary", e.target.value)
                         }
-                        errorMessage={errors.password_confirmation}
+                        errorMessage={errors.monthly_salary}
                         required
-                        placeholder="********"
+                        placeholder="30000"
                     />
+                    <LabelInputContainer
+                        label="Reference Name"
+                        id="reference_name"
+                        type="text"
+                        name="reference_name"
+                        value={data.reference_name}
+                        onChange={(e) =>
+                            setData("reference_name", e.target.value)
+                        }
+                        errorMessage={errors.reference_name}
+                        required
+                        placeholder="eg: Muhammad Naveed"
+                    />
+
                     {isLoading ? (
                         <div className="space-y-1 col-span-2">
                             <Skeleton className="h-3 w-[30%]" />
@@ -168,7 +214,7 @@ export default function Form() {
 
                 <SubmitBtn
                     processing={processing}
-                    label="Add New Brand"
+                    label="Add New User"
                     className="w-full"
                 />
             </div>

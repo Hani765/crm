@@ -97,10 +97,7 @@ class BranchesController extends Controller
      */
     public function create()
     {
-        $managers = User::where('role', 'manager')->get();
-        return Inertia::render("Branches/create/Form", [
-            'managers' => $managers
-        ]);
+        return Inertia::render("Branches/create/Form");
     }
 
     /**
@@ -112,7 +109,6 @@ class BranchesController extends Controller
         // Validate the request
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'branch_manager' => 'required|string|max:255',
             'branch_contact_no' => 'required|string|max:255',
             'branch_address' => 'required|string|max:255',
             'image' => 'nullable|image|max:2048',
@@ -125,7 +121,6 @@ class BranchesController extends Controller
         $branch = Branches::create([
             'name' => $validated['name'],
             'unique_id' => Str::uuid(),
-            'branch_manager' => $validated['branch_manager'],
             'branch_contact_no' => $validated['branch_contact_no'],
             'branch_address' => $validated['branch_address'],
             'images' => $imagePath ?? null, // Save images as JSON in the database
@@ -154,9 +149,7 @@ class BranchesController extends Controller
     public function edit(string $unique_id)
     {
         $branch = Branches::where('unique_id', $unique_id)->first();
-        $managers = User::where('role', 'manager')->get();
         return Inertia::render("Branches/edit/index", [
-            'managers' => $managers,
             'branch' => $branch
         ]);
     }

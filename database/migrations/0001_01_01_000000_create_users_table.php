@@ -22,6 +22,8 @@ return new class extends Migration {
             $table->string('provider_id')->nullable();
             $table->string('password');
             $table->string('role')->default('user');
+            $table->string('monthly_salary')->nullable();
+            $table->string('reference_name')->nullable();
             $table->string('manager_id')->nullable();
             $table->string('phone')->nullable();
             $table->string('skype')->nullable();
