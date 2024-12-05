@@ -172,7 +172,6 @@ class ComplaintController extends Controller
         $history = ComplaintHistory::where('complaint_id', $complaint->id)
             ->orderBy('created_at', 'desc') // Sort by latest first
             ->get();
-        return response()->json($history);
         return Inertia::render('Complaints/View/index', [
             'data' => $complaint,
             'history' => $history,
@@ -194,15 +193,6 @@ class ComplaintController extends Controller
             'brands_data' => $brands,
             'branchData' => $branchs,
             'technicians' => $technicians,
-        ]);
-    }
-    public function copyComplaint(string $id)
-    {
-        $complaint = Complaint::find($id);
-        $brands = Brands::select('unique_id', 'name')->get();
-        return Inertia::render('Complaints/copy/index', [
-            'data' => $complaint,
-            'brands_data' => $brands,
         ]);
     }
     public function copyComplaint(string $id)
